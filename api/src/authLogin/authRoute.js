@@ -15,6 +15,14 @@ async function Register(req, res){
     const normalizedEmailUser = emailUser.toLowerCase();
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD 
+      }
+    });
+
     const [representative, createdRepresentative] = await Representative.findOrCreate({
       where: { email: normalizedEmail },  // Busca un usuario con el mismo email
       defaults: { name, lastName, email: normalizedEmail, rol: 0, identificate }, // Si no existe, lo crea con estos valores
@@ -30,7 +38,12 @@ async function Register(req, res){
       if (!createdUser) {
         return res.status(400).json({ error: `El correo de usuario: ${normalizedEmail} ya está registrado` });
       }else{
-        
+        await transporter.sendMail({
+          from: process.env.EMAIL_USER,
+          to: normalizedEmail,
+          subject: "Te registraste en nuestra plataforma",
+          html: `<p>Hola ${user.name + " " + user.lastName}  ya haces parte de nueestra plataforma</p>`
+        });
         return res.status(201).json({user, representative, message: "Usuario registrado con éxito" });
       }
     }else{
@@ -42,7 +55,12 @@ async function Register(req, res){
       if (!createdUser) {
         return res.status(400).json({ error: `El correo de usuario: ${normalizedEmailUser} ya está registrado` });
       }else{
-        
+        await transporter.sendMail({
+          from: process.env.EMAIL_USER,
+          to: normalizedEmailUser,
+          subject: "Restablecer contraseña",
+          html: `<p>Hola ${user.name + " " + user.lastName} ya haces parte de nueestra plataforma</p>`
+        });
         return res.status(201).json({user, representative, message: "Usuario registrado con éxito" });
       }
     }
@@ -54,7 +72,6 @@ async function Register(req, res){
   }
 
 };
-
 
 async function Login(req, res) {
   try {
