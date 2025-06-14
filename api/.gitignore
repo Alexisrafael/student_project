@@ -1,0 +1,24 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# .env (variables de entorno)
+.env
+
+# Cache y temporales
+*.cache
+tmp/
+dist/
+build/
+
+# Editor y sistema
+.DS_Store
+.vscode/
+.idea/
+
+# Test coverage
+coverage/
