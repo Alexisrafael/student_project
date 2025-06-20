@@ -20,7 +20,17 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       },
     },
+    type_token: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },{
+    timestamps: true 
   });
+
+  PasswordResetToken.TYPE_TOKEN = {
+    RESET_PASSWORD: 0,
+  };
 
   return PasswordResetToken;
 };

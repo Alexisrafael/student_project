@@ -49,9 +49,15 @@ module.exports = (sequelize) => {
     type_user:{
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    sesionCount:{
+      type: DataTypes.INTEGER
+    },
+    active:{
+      type: DataTypes.BOOLEAN
     }
   },{
-    timestamps: false 
+    timestamps: true 
   });
 
   User.TYPE_USER = {

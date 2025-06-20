@@ -44,7 +44,7 @@ module.exports = (sequelize) => {
       type : DataTypes.INTEGER
     }
   },{
-    timestamps: false 
+    timestamps: true 
   });
 
   Representative.ROL = {
